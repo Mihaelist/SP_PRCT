@@ -1,0 +1,163 @@
+// DSTL.cpp: файл реализации
+//
+
+#include "pch.h"
+#include "SP.h"
+#include "DSTL.h"
+#include "afxdialogex.h"
+#include <numeric>
+#include <algorithm>
+#include <vector>
+
+// Диалоговое окно DSTL
+
+IMPLEMENT_DYNAMIC(DSTL, CDialogEx)
+
+DSTL::DSTL(CWnd* pParent /*=nullptr*/)
+	: CDialogEx(IDD_DEMSTL, pParent)
+{
+
+}
+
+DSTL::~DSTL()
+{
+}
+
+void DSTL::DoDataExchange(CDataExchange* pDX)
+{
+	CDialogEx::DoDataExchange(pDX);
+	DDX_Control(pDX, IDC_EDIT1, SPRM);
+	DDX_Control(pDX, IDC_EDIT2, SPRA);
+	DDX_Control(pDX, IDC_EDIT3, MASS);
+	DDX_Control(pDX, IDC_EDIT4, MASPOS);
+	DDX_Control(pDX, IDC_EDIT5, ACEL);
+	DDX_Control(pDX, IDC_EDIT6, COEL);
+	DDX_Control(pDX, IDC_EDIT7, COZNA);
+	DDX_Control(pDX, IDC_EDIT8, RZ);
+	DDX_Control(pDX, IDC_EDIT9, RZM);
+}
+
+
+BEGIN_MESSAGE_MAP(DSTL, CDialogEx)
+	ON_BN_CLICKED(IDC_BUTTON1, &DSTL::OnBnClickedButton1)
+	ON_BN_CLICKED(IDC_BUTTON2, &DSTL::OnBnClickedButton2)
+	ON_BN_CLICKED(IDC_BUTTON3, &DSTL::OnBnClickedButton3)
+	ON_BN_CLICKED(IDC_BUTTON4, &DSTL::OnBnClickedButton4)
+END_MESSAGE_MAP()
+
+
+// Обработчики сообщений DSTL
+
+
+BOOL DSTL::OnInitDialog()
+{
+	CDialogEx::OnInitDialog();
+
+	// TODO:  Добавить дополнительную инициализацию
+	SPRM.SetWindowTextW(Str);
+	return TRUE;  // return TRUE unless you set the focus to a control
+				  // Исключение: страница свойств OCX должна возвращать значение FALSE
+}
+
+
+void DSTL::OnBnClickedButton1()
+{
+	// TODO: добавьте свой код обработчика уведомлений
+	int a[10];
+	int sum, n;
+	CString buf = L" ", buf2;
+	ACEL.GetWindowTextW(buf2);
+	n = _wtoi(buf2);
+	for (int i = 0; i < 10; i++)
+	{
+		a[i] = rand() % 10;
+		buf2.Format(L"%d", a[i]);
+		buf = buf + " " + buf2;
+	}
+	
+
+	MASS.SetWindowTextW(buf);
+	sum = std::accumulate(a, a + n, 0);
+	buf2.Format(L"%d", sum);
+	MASPOS.SetWindowTextW(buf2);
+	SPRA.SetWindowTextW(L"accumulate: считает сумму элементов \r\nна заданном диапазоне.");
+
+}
+
+
+void DSTL::OnBnClickedButton2()
+{
+	int a[10];
+	int sum, n, k;
+	CString buf = L" ", buf2;
+	COEL.GetWindowTextW(buf2);
+	n = _wtoi(buf2);
+	COZNA.GetWindowTextW(buf2);
+	k = _wtoi(buf2);
+
+	for (int i = 0; i < 10; i++)
+	{
+		a[i] = rand() % 10;
+		buf2.Format(L"%d", a[i]);
+		buf = buf + " " + buf2;
+	}
+
+
+	MASS.SetWindowTextW(buf);
+	sum = std::count(a, a + n, k);
+	buf2.Format(L"Количество элементов с значением %d: %d",k, sum);
+	MASPOS.SetWindowTextW(buf2);
+	SPRA.SetWindowTextW(L"count: позволяет сосчитать количество \r\nэлементов с определённым значением.");
+}
+
+
+void DSTL::OnBnClickedButton3()
+{
+	std::vector <int> a(10);
+	int sum, n, k;
+	CString buf, buf2;
+	RZ.GetWindowTextW(buf2);
+	n = _wtoi(buf2);
+	RZM.GetWindowTextW(buf2);
+	k = _wtoi(buf2);
+	for (int i = 0; i < 10; i++)
+	{
+		a[i] = rand() % 10;
+		buf2.Format(L"%d", a[i]);
+		buf = buf + " " + buf2;
+	}
+	std::replace(a.begin(),a.end(),n,k);
+	MASS.SetWindowTextW(buf);
+	buf = "";
+	for (int i = 0; i < 10; i++)
+	{
+		buf2.Format(L"%d", a[i]);
+		buf = buf + " " + buf2;
+	}
+	MASPOS.SetWindowTextW(buf);
+	SPRA.SetWindowTextW(L"replace: заменяет одни значения \r\nэлементов на другие.");
+}
+
+
+void DSTL::OnBnClickedButton4()
+{
+	std::vector <int> a(10);
+	int sum, n, k;
+	CString buf, buf2;
+	for (int i = 0; i < 10; i++)
+	{
+		a[i] = rand() % 10;
+		buf2.Format(L"%d", a[i]);
+		buf = buf + " " + buf2;
+	}
+	std::sort(a.begin(), a.end());
+	MASS.SetWindowTextW(buf);
+	buf = "";
+	for (int i = 0; i < 10; i++)
+	{
+		buf2.Format(L"%d", a[i]);
+		buf = buf + " " + buf2;
+	}
+	MASPOS.SetWindowTextW(buf);
+	SPRA.SetWindowTextW(L"sort: сортирует элементы по \r\nвозрастанию.");
+}
