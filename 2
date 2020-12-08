@@ -1,0 +1,118 @@
+// STATICS.cpp: файл реализации
+//
+
+#include "pch.h"
+#include "SP.h"
+#include "STATICS.h"
+#include "afxdialogex.h"
+#include "Static.h"
+
+// Диалоговое окно STATICS
+
+IMPLEMENT_DYNAMIC(STATICS, CDialogEx)
+
+STATICS::STATICS(CWnd* pParent /*=nullptr*/)
+	: CDialogEx(IDD_Static, pParent)
+{
+
+}
+
+STATICS::~STATICS()
+{
+}
+
+void STATICS::DoDataExchange(CDataExchange* pDX)
+{
+	CDialogEx::DoDataExchange(pDX);
+	DDX_Control(pDX, IDC_EDIT1, FRST);
+	DDX_Control(pDX, IDC_EDIT2, SCND);
+	DDX_Control(pDX, IDC_LIST1, RESULTS);
+	DDX_Control(pDX, IDC_EDIT4, SYM);
+	DDX_Control(pDX, IDC_EDIT3, RESULT);
+}
+
+
+BEGIN_MESSAGE_MAP(STATICS, CDialogEx)
+	ON_BN_CLICKED(IDC_BUTTON1, &STATICS::OnBnClickedButton1)
+	ON_BN_CLICKED(IDC_BUTTON2, &STATICS::OnBnClickedButton2)
+	ON_BN_CLICKED(IDC_BUTTON3, &STATICS::OnBnClickedButton3)
+	ON_BN_CLICKED(IDC_BUTTON4, &STATICS::OnBnClickedButton4)
+END_MESSAGE_MAP()
+
+
+// Обработчики сообщений STATICS
+
+
+void STATICS::OnBnClickedButton1()
+{
+	int a, b, c;
+	CString buf, buf1;
+	FRST.GetWindowTextW(buf);
+	a = _wtoi(buf);
+	SCND.GetWindowTextW(buf);
+	b = _wtoi(buf);
+	c = plus(a, b);
+	SYM.SetWindowTextW(L"+");
+	buf.Format(L"%d",c);
+	buf1.Format(L"%d + %d = %d", a, b, c);
+	RESULT.SetWindowTextW(buf);
+	RESULTS.AddString(buf1);
+}
+
+
+void STATICS::OnBnClickedButton2()
+{
+	int a, b, c;
+	CString buf, buf1;
+	FRST.GetWindowTextW(buf);
+	a = _wtoi(buf);
+	SCND.GetWindowTextW(buf);
+	b = _wtoi(buf);
+	c = minus(a, b);
+	SYM.SetWindowTextW(L"-");
+	buf.Format(L"%d", c);
+	buf1.Format(L"%d - %d = %d", a, b, c);
+	RESULT.SetWindowTextW(buf);
+	RESULTS.AddString(buf1);
+}
+
+
+void STATICS::OnBnClickedButton3()
+{
+	int a, b, c;
+	CString buf, buf1;
+	FRST.GetWindowTextW(buf);
+	a = _wtoi(buf);
+	SCND.GetWindowTextW(buf);
+	b = _wtoi(buf);
+	if (b == 0)
+
+		AfxMessageBox(L"На ноль делить нельзя");
+	else
+	{
+		c = del(a, b);
+		SYM.SetWindowTextW(L"/");
+		buf.Format(L"%d", c);
+		buf1.Format(L"%d / %d = %d", a, b, c);
+		RESULT.SetWindowTextW(buf);
+		RESULTS.AddString(buf1);
+	}
+	
+}
+
+
+void STATICS::OnBnClickedButton4()
+{
+	int a, b, c;
+	CString buf, buf1;
+	FRST.GetWindowTextW(buf);
+	a = _wtoi(buf);
+	SCND.GetWindowTextW(buf);
+	b = _wtoi(buf);
+	c = umn(a, b);
+	SYM.SetWindowTextW(L"*");
+	buf.Format(L"%d", c);
+	buf1.Format(L"%d * %d = %d", a, b, c);
+	RESULT.SetWindowTextW(buf);
+	RESULTS.AddString(buf1);
+}
